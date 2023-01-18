@@ -1,5 +1,9 @@
 # Java_Study
 
+##### intelliJ 단축키
+
++ alt + enter : 자동 import
+
 # Spring
 
 ## 10/11
@@ -305,7 +309,7 @@ FAILURE: Build failed with an exception.
   
   * URI는 명사를 사용한다.
 
-![](C:\Users\multicampus\AppData\Roaming\marktext\images\2023-01-18-13-08-32-image.png)
+![RESTAPI](README.assets/RESTAPI.png)
 
 
 
@@ -376,11 +380,205 @@ intelliJ에서 spring MVN을 하는법을 몰라서 Swagger로 넘어감..
 
 ### 대망의 Spring Boot
 
++ https://start.spring.io/
+  + Maven
+  + Java
+  + 2.7.7
+  + Jar
+  + 8
+  + Spring Boot DevTools
+  + spring web
+  + lombok - 이건 개인공부..
+    + 장점 : DTO(getter, setter)를 @data를 하면 컴파일할때 알아서 생성해준다.
+    + 단점 : 상대방에게 lombok이 깔려있지 않다면 읽을 수 없음! / 상대방도 깔려있어야 한다.
++ 아래 Generate 버튼 누르고 파일 받아서 압축풀고 IntelliJ에 넣기
++ 빌드 기다리기
 
 
-[https://edu.ssafy.com/edu/board/free/detail.do?searchBrdItmCdVal=4&brdItmSeq=51865®UserId=&searchOpenYn=&searchMyItm=&eduGradCd=&searchBrdFilter=Lv5&searchWord=&_csrf=24de98ce-ff4a-47f2-b127-f6604ed8ef16&pageIndex=6](https://edu.ssafy.com/edu/board/free/detail.do?searchBrdItmCdVal=4&brdItmSeq=51865&regUserId=&searchOpenYn=&searchMyItm=&eduGradCd=&searchBrdFilter=Lv5&searchWord=&_csrf=24de98ce-ff4a-47f2-b127-f6604ed8ef16&pageIndex=6)
+
+### STS - 강의 기준 Maven
+
+**IntelliJ > new project > Spring Initalizr > Java, Maven, JDK 11, Java 11, Packaging Jar > Next > Spring Boot DevTools, Spring Web, version 2.7.7 등 필요한 것들 체크 잘하기**
+
+프로젝트 생성시 아래 것들을 체크 잘 안하면 변경하면됨 안하면 오류뜸
+
+pom.xml에 parent 아래 version을 2.7.7로 변경 : java11과는 2.7.7이 사용 가능!
+
+pom.xml에 properties 아래 java.version도 11로 변경
+
+| 프로젝트 주요 파일                         | 설명                                                         |
+| ------------------------------------------ | ------------------------------------------------------------ |
+| src/main/java                              | java source directory                                        |
+| 프로젝트 이름Application.java              | application을 시작할 수 있는 main method가 존재하는 스프링 구성 메인 클래스 |
+| static                                     | css, js, img등의 정적 resource directory                     |
+| templates<br />우리는 이거 대신 JSP를 사용 | SpringBoot에서 사용 가능한 여러가지 View Template(Thymeleaf, Velocity, Freemarker등) 위치 |
+| application.properties                     | application 및 스프링의 설정 등에서 사용할 여러가지 property를 정의한 file |
+| src/main                                   | jsp등의 리소드 directory                                     |
 
 
+
++ src/main 에서 webapp 폴더를 생성하고 안에 index.html 파일을 만들고 작성을 하고 서버를 키면 자동으로 html파일을 잡아서 화면에 띄워줌
+
++ 프로젝트 이름Application.java의 하위 모두 Annotation되어 있는 애들을 모두 등록시킴! 이 파일은 최상단에 놔두고 위치 바꾸지 말기
+
++ JSP
+
+  + jsp 는 Boot에서 기본적으로 제공하는 녀석이 아님
+
+  + ```
+    #properties file 추가해야한다.
+    spring.mvc.view.prefix=/WEB-INF/views/
+    spring.mvc.view.suffix=.jsp
+    # 현재 추가해도 warnig 뜸
+    ```
+
+  + ```
+    #server.servlet.context-path=/ssafy : path 고치기
+    #server.port=80 : server port 고치기
+    # 얘는 지금 안해도됨
+    ```
+
+  + ```
+    # pom.xml에 dependency 추가
+    # https://mvnrepository.com/artifact/javax.servlet/jstl
+    <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+    <!-- <version>1.2</version> -->
+    </dependency>
+    #현재 이거 붙여넣기만 해도 오류 : 넣고 maven 재실행하면 됨 / 버전 상관 x
+    ```
+
+  + ```
+    # pom.xml에 dependency 추가
+    https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-jasper</artifactId>
+    <!-- <version>10.1.1</version> -->
+    </dependency>
+    #현재 이거 붙여넣기만 해도 오류 : 넣고 maven 재실행하면 됨 / 버전 상관 x / 노란줄뜨면 버전줄 삭제해도 무방
+    ```
+
+
+
+오전 3 SpringBoot 게시판 강의는 mybatis 강의가 MVC라서 강의 그냥 듣기만 해야함..
+
+dao랑 dto더 공부하려면 mybatis 강의를 듣거나 스프링 책 보기
+
++ Spring Boot와 Spring의 차이
+  + web.xml : 지움
+  + bean, property를 바꿔주면 됨
+    + DB connection
+    + camelCase는 하이픈 넣고 소문자로 검색하면 됨
+    + spring.datasourtce.뒤에 적으면 됨
+      + driver-class-name
+      + url
+      + username
+      + password
+
+  + 패키지 config / DBConfig.java(이름은 상관없음) / class위에
+
+    + @Configuration : 설정파일임을 명시
+    + @MapperScan(basePackages="com.ssafy.board.model.dao")
+
+  + 자바에서 property가 있다는 것은 setter가 있다는 것
+
+    + 이름.setPrefix(prefix);
+    + 이름.setSuffix(suffix);
+
+    ![image-20230118235155856](README.assets/image-20230118235155856.png)
+
+![image-20230119000729732](README.assets/image-20230119000729732.png)
+
+이런식으로 API작성
+
+![image-20230119000934775](README.assets/image-20230119000934775.png)
+
+![image-20230119001855447](README.assets/image-20230119001855447.png)
+
+
+
+### CORS(교차 출처 리소스 공유)
+
+![image-20230119001543260](README.assets/image-20230119001543260.png)
+
+##### 해결방안
+
++ @CrossOrign 사용 : controller
+
++ @CrossOrign("프론트 주소") : 프론트 주소를 허락해주겠다.
+
++ 하지만 어떤주소로 들어오는지 모른다면
+
+  + @CrossOrigin("*") : 전부 허용
+
++ GET, POST방식만 허가
+
+  ![image-20230119002021550](README.assets/image-20230119002021550.png)
+
+
+
+### Spring Boot에서 Swagger등록
+
+pom.xml
+
+``` xml
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-boot-starter</artifactId>
+    <version>3.0.0</version>
+</dependency>
+```
+
++ 충돌 방지를 위해
+  + ![image-20230119002643049](README.assets/image-20230119002643049.png)
+
+![image-20230119002708280](README.assets/image-20230119002708280.png)
+
+```java
+// Swagger 코드
+package com.ssafy.config;
+
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+
+@Configuration
+public class SwaggerConfig {
+    @Bean
+    public Docket api(){
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.controller"))
+                .paths(PathSelectors.ant("/api/**")).build().apiInfo(apiInfo());
+    }
+
+    private ApiInfo apiInfo(){
+        return new ApiInfoBuilder().title("SSAFY Swagger").description("swagger연습용").version("v1")
+    }
+}
+```
+
+
+
+
+
+### JWT
+
+https://edu.ssafy.com/edu/board/free/detail.do?searchBrdItmCdVal=4&brdItmSeq=52865&regUserId=&searchOpenYn=&searchMyItm=&eduGradCd=&searchBrdFilter=Lv5&searchWord=&_csrf=c1650ff9-5910-40b6-81bb-ad3684a62647&pageIndex=1
+
+
+
+##### Spring Boot 개인공부 할 것
 
 [Spring Boot + MySQL + JPA + Thymeleaf 로 CRUD 구현하기 04 타임리프 레이아웃, 회원가입 구현](https://nyximos.tistory.com/96)
 
